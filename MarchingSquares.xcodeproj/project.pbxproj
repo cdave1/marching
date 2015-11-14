@@ -75,14 +75,14 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				631ABB5312FBB63A00243329 /* TextureLoader.h */,
-				631ABB5412FBB63A00243329 /* TextureLoader.m */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
-				63EEA42711A251970047F51E /* RenderController.h */,
-				63EEA42811A251A20047F51E /* RenderController.c */,
 				631ABE1412FCCA1200243329 /* GLESViewController.h */,
 				631ABE1512FCCA1200243329 /* GLESViewController.m */,
+				63EEA42811A251A20047F51E /* RenderController.c */,
+				63EEA42711A251970047F51E /* RenderController.h */,
+				631ABB5312FBB63A00243329 /* TextureLoader.h */,
+				631ABB5412FBB63A00243329 /* TextureLoader.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";

@@ -41,9 +41,6 @@
 
 static pixel_t * glowData = NULL;
 
-
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -61,16 +58,15 @@ static pixel_t * glowData = NULL;
     self.preferredFramesPerSecond = 60;
 
     animating = FALSE;
-    displayLinkSupported = FALSE;
     displayLink = nil;
     animationFrameInterval = 1;
     animationTimer = nil;
 
-    NSString *reqSysVer = @"3.1";
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
-        displayLinkSupported = TRUE;
+    [self setupGL];
+}
 
+
+- (void) viewWillAppear:(BOOL)animated {
     LoadTexture("transparent.png", &textureHandle);
     [self genTextureFrameBuf];
 
@@ -88,7 +84,7 @@ static pixel_t * glowData = NULL;
         CGContextRelease(context);
     }
 
-    [self setupGL];
+    [super viewWillAppear:animated];
 }
 
 
@@ -143,89 +139,6 @@ static pixel_t * glowData = NULL;
 		printf("FBO bad status %x.\n", stat);
     }
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, oldFrameBuffer);
-}
-
-
-- (NSInteger)animationFrameInterval {
-    return animationFrameInterval;
-}
-
-
-- (void)setAnimationFrameInterval:(NSInteger)frameInterval {
-    if (frameInterval >= 1) {
-        animationFrameInterval = frameInterval;
-        
-        if (animating) {
-            [self stopAnimation];
-            [self startAnimation];
-        }
-    }
-}
-
-
-- (void)startAnimation {
-    if (!animating) {
-        CurrentTime = CACurrentMediaTime();
-		LastFPSUpdate = CurrentTime;
-        
-        if (displayLinkSupported) {
-			displayLink = [NSClassFromString(@"CADisplayLink") displayLinkWithTarget:self selector:@selector(render)];
-            [displayLink setFrameInterval:animationFrameInterval];
-            [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-        } else {
-            animationTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)((1.0 / 60.0) * animationFrameInterval) target:self selector:@selector(render) userInfo:nil repeats:TRUE];
-        }
-        
-        animating = TRUE;
-    }
-}
-
-
-- (void)stopAnimation {
-    if (animating) {
-        if (displayLinkSupported) {
-            [displayLink invalidate];
-            displayLink = nil;
-        } else {
-            [animationTimer invalidate];
-            animationTimer = nil;
-        }
-        
-        animating = FALSE;
-    }
-}
-
-
-void marchNext(GLubyte val, vec2_t * vec) {
-    // Marching squares:
-    // 1100 12 ->
-    // 0011 3  <-
-    // 1110 14 ->
-    // 0100 4  -> 
-    // 1000 8  ^
-    // 1011 11 ^
-    // 1001 9  ^
-    // 0101 5  v
-    // 1010 10 ^
-    // 0111 7  <-
-    // 0110 6  <-
-    // 0001 1  v
-    // 0010 2  <-
-    // 1101 13 v
-    // 1111 15 _
-    
-    if (val == 1 || val == 5 || val == 13) {
-        // Down
-        (*vec)[1] += 1;
-    } else if (val == 2 || val == 3 || val == 6 || val == 7) {
-        // Left
-        (*vec)[0] -= 1;
-    } else if (val >= 8 && val <= 11) {
-        // In our case, the index is lower as you go up
-        (*vec)[1] -= 1;
-    } else if (val == 4 || val == 12 || val == 14) {
-        (*vec)[0] += 1;
-    }
 }
 
 
@@ -333,7 +246,9 @@ const GLubyte kAlphaThreshold = 0;
         
         p = ((a > kAlphaThreshold) << 3) + ((b > kAlphaThreshold) << 2) +((c > kAlphaThreshold) << 1) + (d > kAlphaThreshold);
         
-        if (p == 0) break;
+        if (p == 0) {
+            break;
+        }
         
         marchNext(p, &next);
     }
@@ -346,8 +261,42 @@ const GLubyte kAlphaThreshold = 0;
 }
 
 
+void marchNext(GLubyte val, vec2_t * vec) {
+    // Marching squares:
+    // 1100 12 ->
+    // 0011 3  <-
+    // 1110 14 ->
+    // 0100 4  ->
+    // 1000 8  ^
+    // 1011 11 ^
+    // 1001 9  ^
+    // 0101 5  v
+    // 1010 10 ^
+    // 0111 7  <-
+    // 0110 6  <-
+    // 0001 1  v
+    // 0010 2  <-
+    // 1101 13 v
+    // 1111 15 _
+
+    if (val == 1 || val == 5 || val == 13) {
+        // Down
+        (*vec)[1] += 1;
+    } else if (val == 2 || val == 3 || val == 6 || val == 7) {
+        // Left
+        (*vec)[0] -= 1;
+    } else if (val >= 8 && val <= 11) {
+        // In our case, the index is lower as you go up
+        (*vec)[1] -= 1;
+    } else if (val == 4 || val == 12 || val == 14) {
+        (*vec)[0] += 1;
+    }
+}
+
+
 static float zMove = 0.0f;
 static float rot = 0.0f;
+
 - (void)render {
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);

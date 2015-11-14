@@ -37,24 +37,7 @@
     [window setRootViewController:glViewController];
     [window makeKeyAndVisible];
 
-    [glViewController startAnimation];
-
     return YES;
-}
-
-
-- (void)applicationWillResignActive:(UIApplication *)application {
-    [glViewController stopAnimation];
-}
-
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    [glViewController startAnimation];
-}
-
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    [glViewController stopAnimation];
 }
 
 

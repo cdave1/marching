@@ -24,7 +24,6 @@
 
 @interface GLESViewController : GLKViewController {
     BOOL animating;
-    BOOL displayLinkSupported;
     NSInteger animationFrameInterval;
     NSTimer *animationTimer;
     CADisplayLink * displayLink;
@@ -37,9 +36,5 @@
     GLuint hiddenFboTextureHandle;
     GLuint hiddenFboHandle;
 }
-
-- (id)initWithFrame:(CGRect)frame;
-- (void)startAnimation;
-- (void)stopAnimation;
 
 @end
