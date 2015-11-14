@@ -18,12 +18,16 @@
  
  */
 
-
 #import "GLESViewController.h"
 #import "TextureLoader.h"
 
 #define FRAME_BUFFER_TEX_SIZE 256
 
+@interface GLESViewController ()
+@property (strong, nonatomic) EAGLContext *context;
+- (void)setupGL;
+- (void)tearDownGL;
+@end
 
 @interface GLESViewController (PrivateMethods)
 - (void) genTextureFrameBuf;
@@ -38,50 +42,89 @@
 static pixel_t * glowData = NULL;
 
 
-- (id)initWithFrame:(CGRect)frame
-{
-    if ((self = [super init]))
-    {
-        glView = [[GLESView alloc] initWithFrame:frame];
-        self.view = glView;
-        
-        animating = FALSE;
-        displayLinkSupported = FALSE;
-        displayLink = nil;
-        animationFrameInterval = 1;
-        animationTimer = nil;
-        
-        NSString *reqSysVer = @"3.1";
-        NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-        if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
-            displayLinkSupported = TRUE;
 
-        LoadTexture("transparent.png", &textureHandle);
-        [self genTextureFrameBuf];
-        
-        // Glow:
-        CGImageRef img = [UIImage imageNamed:[NSString stringWithUTF8String:"point_glow_s.png"]].CGImage;	
-        size_t width = CGImageGetWidth(img);
-        size_t height = CGImageGetHeight(img);
-        
-        if(img) 
-        {
-            glowData = (pixel_t *)calloc(1, width * height * sizeof(pixel_t));
-            CGContextRef context = CGBitmapContextCreate(glowData, width, height, 8, width * 4, 
-                                                         CGImageGetColorSpace(img), 
-                                                         kCGImageAlphaPremultipliedLast);
-            CGContextDrawImage(context, CGRectMake(0.0, 0.0, (CGFloat)width, (CGFloat)height), img);
-            CGContextRelease(context);
-        }
-        
-        
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1] autorelease];
+
+    if (!self.context) {
+        NSLog(@"Failed to create ES context");
     }
-    return self;
+
+    GLKView *view = (GLKView *)self.view;
+    view.context = self.context;
+    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    [view  setMultipleTouchEnabled:YES];
+
+    self.preferredFramesPerSecond = 60;
+
+    animating = FALSE;
+    displayLinkSupported = FALSE;
+    displayLink = nil;
+    animationFrameInterval = 1;
+    animationTimer = nil;
+
+    NSString *reqSysVer = @"3.1";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+        displayLinkSupported = TRUE;
+
+    LoadTexture("transparent.png", &textureHandle);
+    [self genTextureFrameBuf];
+
+    // Glow:
+    CGImageRef img = [UIImage imageNamed:[NSString stringWithUTF8String:"point_glow_s.png"]].CGImage;
+    size_t width = CGImageGetWidth(img);
+    size_t height = CGImageGetHeight(img);
+
+    if (img) {
+        glowData = (pixel_t *)calloc(1, width * height * sizeof(pixel_t));
+        CGContextRef context = CGBitmapContextCreate(glowData, width, height, 8, width * 4,
+                                                     CGImageGetColorSpace(img),
+                                                     kCGImageAlphaPremultipliedLast);
+        CGContextDrawImage(context, CGRectMake(0.0, 0.0, (CGFloat)width, (CGFloat)height), img);
+        CGContextRelease(context);
+    }
+
+    [self setupGL];
 }
 
 
-- (void) genTextureFrameBuf
-{
+- (void)viewDidUnload {
+    [super viewDidUnload];
+
+    [self tearDownGL];
+
+    if ([EAGLContext currentContext] == self.context) {
+        [EAGLContext setCurrentContext:nil];
+    }
+    self.context = nil;
+}
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+            interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+}
+
+
+- (void)setupGL {
+    [EAGLContext setCurrentContext:self.context];
+
+    glEnable(GL_LINE_SMOOTH);
+    glLineWidth(1.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
+
+- (void)tearDownGL {
+    [EAGLContext setCurrentContext:self.context];
+}
+
+
+- (void) genTextureFrameBuf {
     GLint oldFrameBuffer;
     GLuint stat;
     
@@ -96,28 +139,23 @@ static pixel_t * glowData = NULL;
 	glGenFramebuffersOES(1, &hiddenFboHandle);
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, hiddenFboHandle);
     glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, hiddenFboTextureHandle, 0);
-	if ((stat = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES)) != GL_FRAMEBUFFER_COMPLETE_OES)
-    {
+	if ((stat = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES)) != GL_FRAMEBUFFER_COMPLETE_OES) {
 		printf("FBO bad status %x.\n", stat);
     }
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, oldFrameBuffer);
 }
 
 
-- (NSInteger)animationFrameInterval
-{
+- (NSInteger)animationFrameInterval {
     return animationFrameInterval;
 }
 
 
-- (void)setAnimationFrameInterval:(NSInteger)frameInterval
-{
-    if (frameInterval >= 1)
-    {
+- (void)setAnimationFrameInterval:(NSInteger)frameInterval {
+    if (frameInterval >= 1) {
         animationFrameInterval = frameInterval;
         
-        if (animating)
-        {
+        if (animating) {
             [self stopAnimation];
             [self startAnimation];
         }
@@ -125,38 +163,30 @@ static pixel_t * glowData = NULL;
 }
 
 
-- (void)startAnimation
-{
-    if (!animating)
-    {
+- (void)startAnimation {
+    if (!animating) {
         CurrentTime = CACurrentMediaTime();
 		LastFPSUpdate = CurrentTime;
         
-        if (displayLinkSupported)
-        {
+        if (displayLinkSupported) {
 			displayLink = [NSClassFromString(@"CADisplayLink") displayLinkWithTarget:self selector:@selector(render)];
             [displayLink setFrameInterval:animationFrameInterval];
             [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-        }
-        else
+        } else {
             animationTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)((1.0 / 60.0) * animationFrameInterval) target:self selector:@selector(render) userInfo:nil repeats:TRUE];
+        }
         
         animating = TRUE;
     }
 }
 
 
-- (void)stopAnimation
-{
-    if (animating)
-    {
-        if (displayLinkSupported)
-        {
+- (void)stopAnimation {
+    if (animating) {
+        if (displayLinkSupported) {
             [displayLink invalidate];
             displayLink = nil;
-        }
-        else
-        {
+        } else {
             [animationTimer invalidate];
             animationTimer = nil;
         }
@@ -166,8 +196,7 @@ static pixel_t * glowData = NULL;
 }
 
 
-void marchNext(GLubyte val, vec2_t * vec)
-{
+void marchNext(GLubyte val, vec2_t * vec) {
     // Marching squares:
     // 1100 12 ->
     // 0011 3  <-
@@ -185,23 +214,16 @@ void marchNext(GLubyte val, vec2_t * vec)
     // 1101 13 v
     // 1111 15 _
     
-    if (val == 1 || val == 5 || val == 13)
-    {
+    if (val == 1 || val == 5 || val == 13) {
         // Down
         (*vec)[1] += 1;
-    }
-    else if (val == 2 || val == 3 || val == 6 || val == 7)
-    {
+    } else if (val == 2 || val == 3 || val == 6 || val == 7) {
         // Left
         (*vec)[0] -= 1;
-    } 
-    else if (val >= 8 && val <= 11)
-    {
+    } else if (val >= 8 && val <= 11) {
         // In our case, the index is lower as you go up
         (*vec)[1] -= 1;
-    }
-    else if (val == 4 || val == 12 || val == 14)
-    {
+    } else if (val == 4 || val == 12 || val == 14) {
         (*vec)[0] += 1;
     }
 }
@@ -220,21 +242,17 @@ static pixel_t * inputPixels = NULL;
 static pixel_t * outputPixels = NULL;
 const GLubyte kAlphaThreshold = 0;
 
-- (void)marchingSquares
-{
+- (void)marchingSquares {
     GLint oldfb;
     GLfloat vp[4];
  
-    if (!inputPixels)
-    {
+    if (!inputPixels) {
         inputPixels = (pixel_t *)calloc(1, sizeof(pixel_t) * FRAME_BUFFER_TEX_SIZE * FRAME_BUFFER_TEX_SIZE);
     }
     
-    if (!outputPixels)
-    {
+    if (!outputPixels) {
         outputPixels = (pixel_t *)calloc(1, sizeof(pixel_t) * FRAME_BUFFER_TEX_SIZE * FRAME_BUFFER_TEX_SIZE); 
     }
-    
     
     glGetFloatv(GL_VIEWPORT, vp);
     glGetIntegerv(GL_FRAMEBUFFER_BINDING_OES, &oldfb);
@@ -264,10 +282,8 @@ const GLubyte kAlphaThreshold = 0;
     static vec2_t startingPoint;
     static GLubyte p = 0;
     vec2Set(startingPoint, 0, 0);
-    for (int i = 0; i < FRAME_BUFFER_TEX_SIZE - 1; ++i)
-    {
-        for (int j = 0; j < FRAME_BUFFER_TEX_SIZE - 1; ++j)
-        {
+    for (int i = 0; i < FRAME_BUFFER_TEX_SIZE - 1; ++i) {
+        for (int j = 0; j < FRAME_BUFFER_TEX_SIZE - 1; ++j) {
             int pos = (i * FRAME_BUFFER_TEX_SIZE) + j;
             GLubyte a = inputPixels[pos][3];
             GLubyte b = inputPixels[pos+1][3];
@@ -275,13 +291,15 @@ const GLubyte kAlphaThreshold = 0;
             GLubyte d = inputPixels[pos + FRAME_BUFFER_TEX_SIZE + 1][3];
             
             p = ((a > kAlphaThreshold) << 3) + ((b > kAlphaThreshold) << 2) +((c > kAlphaThreshold) << 1) + (d > kAlphaThreshold);
-            if (p > 0)
-            {
+            if (p > 0) {
                 vec2Set(startingPoint, j, i);
                 break;
             }
         }
-        if (startingPoint[0] > 0) break;
+        
+        if (startingPoint[0] > 0) {
+            break;
+        }
     }
     
     // Generate the outline
@@ -291,10 +309,10 @@ const GLubyte kAlphaThreshold = 0;
     vec2Set(next, startingPoint[0], startingPoint[1]);
     marchNext(p, &next);
     
-    while (next[0] != startingPoint[0] || next[1] != startingPoint[1])
-    {
-        if (next[0] < 0 || next[1] < 0 || 
-            next[0] > FRAME_BUFFER_TEX_SIZE || next[1] > FRAME_BUFFER_TEX_SIZE) break;
+    while (next[0] != startingPoint[0] || next[1] != startingPoint[1]) {
+        if (next[0] < 0 || next[1] < 0 || next[0] > FRAME_BUFFER_TEX_SIZE || next[1] > FRAME_BUFFER_TEX_SIZE) {
+            break;
+        }
         
         int pos = next[0] + (next[1] * FRAME_BUFFER_TEX_SIZE);
         
@@ -328,9 +346,9 @@ const GLubyte kAlphaThreshold = 0;
 }
 
 
-static float zMove = 0.0f;static float rot = 0.0f;
-- (void)render
-{
+static float zMove = 0.0f;
+static float rot = 0.0f;
+- (void)render {
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     
@@ -352,29 +370,11 @@ static float zMove = 0.0f;static float rot = 0.0f;
     //[self renderImage:textureHandle size:FRAME_BUFFER_TEX_SIZE];
 	glPopMatrix();
     
-    //rot += 0.1f;
-    
-    [glView swapBuffers];
-	[self ShowFPS];
+    rot += 0.1f;
 }
 
 
-- (void) ShowFPS
-{
-	++frames;
-	CurrentTime = CACurrentMediaTime();
-	
-	if ((CurrentTime - LastFPSUpdate) > 1.0f)
-	{ 
-		printf("fps: %d\n", frames);		
-		frames = 0;
-		LastFPSUpdate = CurrentTime;
-	} 
-}
-
-
-- (void) renderImage:(GLuint)handle size:(float)size
-{
+- (void) renderImage:(GLuint)handle size:(float)size {
     glBindTexture(GL_TEXTURE_2D, handle);
 
 	aglBegin(GL_TRIANGLE_STRIP);
@@ -396,12 +396,29 @@ static float zMove = 0.0f;static float rot = 0.0f;
     aglVertex3f(size, size, 0.0f);
     
 	aglEnd();
-    
 }
 
 
-- (void)dealloc
-{	
+#pragma mark - GLKView and GLKViewController delegate methods
+
+- (void)update {
+    ++frames;
+    CurrentTime = CACurrentMediaTime();
+
+    if ((CurrentTime - LastFPSUpdate) > 1.0f) {
+        printf("fps: %d\n", frames);
+        frames = 0;
+        LastFPSUpdate = CurrentTime;
+    }
+}
+
+
+- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
+    [self render];
+}
+
+
+- (void)dealloc {
     [self.view release];
     [super dealloc];
 }

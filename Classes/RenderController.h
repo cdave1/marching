@@ -1,21 +1,21 @@
 /*
- 
+
  Copyright (c) 2011 David Petrie david@davidpetrie.com
- 
+
  This software is provided 'as-is', without any express or implied warranty.
- In no event will the authors be held liable for any damages arising from the 
+ In no event will the authors be held liable for any damages arising from the
  use of this software. Permission is granted to anyone to use this software for
- any purpose, including commercial applications, and to alter it and 
+ any purpose, including commercial applications, and to alter it and
  redistribute it freely, subject to the following restrictions:
- 
- 1. The origin of this software must not be misrepresented; you must not claim 
- that you wrote the original software. If you use this software in a product, an 
- acknowledgment in the product documentation would be appreciated but is not 
+
+ 1. The origin of this software must not be misrepresented; you must not claim
+ that you wrote the original software. If you use this software in a product, an
+ acknowledgment in the product documentation would be appreciated but is not
  required.
- 2. Altered source versions must be plainly marked as such, and must not be 
+ 2. Altered source versions must be plainly marked as such, and must not be
  misrepresented as being the original software.
  3. This notice may not be removed or altered from any source distribution.
- 
+
  */
 
 #ifndef RENDER_CONTROLLER_H
@@ -64,11 +64,10 @@ enum {
 };
 
 
-typedef struct camera_s
-{
-	vec3_t eye;
-	vec3_t center;
-	vec3_t up;
+typedef struct camera_s {
+    vec3_t eye;
+    vec3_t center;
+    vec3_t up;
 } camera_t;
 
 
@@ -76,50 +75,48 @@ typedef struct camera_s
 extern "C" {
 #endif
 
-void aglBindTextureAttribute(GLint attributeHandle);
+    void aglBindTextureAttribute(GLint attributeHandle);
 
-void aglCross3(vec3_t vOut, const vec3_t a, const vec3_t b);
+    void aglCross3(vec3_t vOut, const vec3_t a, const vec3_t b);
 
-void aglNormalize3(vec3_t vOut, const vec3_t vec);
+    void aglNormalize3(vec3_t vOut, const vec3_t vec);
 
-void aglMatrixMultiply(float *mOut,
-					   const float *mA,
-					   const float *mB);
+    void aglMatrixMultiply(float *mOut,
+                           const float *mA,
+                           const float *mB);
 
-void aglBegin(GLenum prim);
+    void aglBegin(GLenum prim);
 
-void aglVertex3f(float x, float y, float z);
+    void aglVertex3f(float x, float y, float z);
 
-void aglColor4f(float r, float g, float b, float a);
+    void aglColor4f(float r, float g, float b, float a);
 
-void aglTexCoord2f(float s, float t);
+    void aglTexCoord2f(float s, float t);
 
-void aglEnd();
+    void aglEnd();
 
-void aglError(const char *source);
+    void aglError(const char *source);
 
-void aglMatrixTranslation(
-					   float	*mOut,
-					   const float	fX,
-					   const float	fY,
-					   const float	fZ);
+    void aglMatrixTranslation(float *mOut,
+                              const float fX,
+                              const float fY,
+                              const float fZ);
 
-void aglMatrixRotationZ(float	*mOut,
-						const float fAngle);
+    void aglMatrixRotationZ(float *mOut,
+                            const float fAngle);
 
-void aglMatrixPerspectiveFovRH(
-							float	*mOut,
-							const float	fFOVy,
-							const float	fAspect,
-							const float	fNear,
-							const float	fFar);
-
-void aglMatrixLookAtRH(float *mOut, const vec3_t vEye, const vec3_t vAt, const vec3_t vUp);
-
-void aglOrtho(float *mOut, float left, float right, float bottom, float top, float zNear, float zFar);
-
+    void aglMatrixPerspectiveFovRH(float *mOut,
+                                   const float fFOVy,
+                                   const float fAspect,
+                                   const float fNear,
+                                   const float fFar);
+    
+    void aglMatrixLookAtRH(float *mOut, const vec3_t vEye, const vec3_t vAt, const vec3_t vUp);
+    
+    void aglOrtho(float *mOut, float left, float right, float bottom, float top, float zNear, float zFar);
+    
 #ifdef __cplusplus
 }
 #endif
-    
+
 #endif

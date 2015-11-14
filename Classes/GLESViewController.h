@@ -18,12 +18,11 @@
  
  */
 
-#import "GLESView.h"
+#import <UIKit/UIKit.h>
+#import <GLKit/GLKit.h>
 #import "RenderController.h"
 
-@interface GLESViewController : UIViewController 
-{
-    GLESView * glView;
+@interface GLESViewController : GLKViewController {
     BOOL animating;
     BOOL displayLinkSupported;
     NSInteger animationFrameInterval;
@@ -35,9 +34,7 @@
 	CFTimeInterval LastFPSUpdate;
     
     GLuint textureHandle;
-    
     GLuint hiddenFboTextureHandle;
-    
     GLuint hiddenFboHandle;
 }
 

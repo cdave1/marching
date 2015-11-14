@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,16 +15,16 @@
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
 		631ABB5512FBB63A00243329 /* TextureLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 631ABB5412FBB63A00243329 /* TextureLoader.m */; };
 		631ABB6D12FBBB1C00243329 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 631ABB6C12FBBB1C00243329 /* CoreGraphics.framework */; };
-		631ABE0B12FCC94300243329 /* GLES1Surface.m in Sources */ = {isa = PBXBuildFile; fileRef = 631ABE0412FCC94300243329 /* GLES1Surface.m */; };
-		631ABE0C12FCC94300243329 /* GLES2Surface.m in Sources */ = {isa = PBXBuildFile; fileRef = 631ABE0612FCC94300243329 /* GLES2Surface.m */; };
-		631ABE0D12FCC94300243329 /* GLESSurface.m in Sources */ = {isa = PBXBuildFile; fileRef = 631ABE0812FCC94300243329 /* GLESSurface.m */; };
-		631ABE0E12FCC94300243329 /* GLESView.m in Sources */ = {isa = PBXBuildFile; fileRef = 631ABE0A12FCC94300243329 /* GLESView.m */; };
 		631ABE1612FCCA1200243329 /* GLESViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631ABE1512FCCA1200243329 /* GLESViewController.m */; };
 		631ABEEC12FF3DEE00243329 /* transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 631ABEEB12FF3DEE00243329 /* transparent.png */; };
 		631ABF1D12FF423F00243329 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 631ABF1C12FF423F00243329 /* README.md */; };
 		631AC14412FFC4E800243329 /* t2.png in Resources */ = {isa = PBXBuildFile; fileRef = 631AC14312FFC4E800243329 /* t2.png */; };
 		631AC20A12FFCE4300243329 /* point_glow_s.png in Resources */ = {isa = PBXBuildFile; fileRef = 631AC20912FFCE4300243329 /* point_glow_s.png */; };
 		63EEA42911A251A20047F51E /* RenderController.c in Sources */ = {isa = PBXBuildFile; fileRef = 63EEA42811A251A20047F51E /* RenderController.c */; };
+		E41C07721BF7EC5D0032DEC6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E41C07711BF7EC5D0032DEC6 /* Default-568h@2x.png */; };
+		E41C07761BF7F3BB0032DEC6 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41C07751BF7F3BB0032DEC6 /* GLKit.framework */; };
+		E41C07791BF7F4620032DEC6 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E41C07771BF7F4620032DEC6 /* ViewController_iPad.xib */; };
+		E41C077A1BF7F4620032DEC6 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E41C07781BF7F4620032DEC6 /* ViewController_iPhone.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,14 +39,6 @@
 		631ABB5312FBB63A00243329 /* TextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureLoader.h; sourceTree = "<group>"; };
 		631ABB5412FBB63A00243329 /* TextureLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureLoader.m; sourceTree = "<group>"; };
 		631ABB6C12FBBB1C00243329 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		631ABE0312FCC94300243329 /* GLES1Surface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLES1Surface.h; sourceTree = "<group>"; };
-		631ABE0412FCC94300243329 /* GLES1Surface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLES1Surface.m; sourceTree = "<group>"; };
-		631ABE0512FCC94300243329 /* GLES2Surface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLES2Surface.h; sourceTree = "<group>"; };
-		631ABE0612FCC94300243329 /* GLES2Surface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLES2Surface.m; sourceTree = "<group>"; };
-		631ABE0712FCC94300243329 /* GLESSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESSurface.h; sourceTree = "<group>"; };
-		631ABE0812FCC94300243329 /* GLESSurface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLESSurface.m; sourceTree = "<group>"; };
-		631ABE0912FCC94300243329 /* GLESView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESView.h; sourceTree = "<group>"; };
-		631ABE0A12FCC94300243329 /* GLESView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLESView.m; sourceTree = "<group>"; };
 		631ABE1412FCCA1200243329 /* GLESViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESViewController.h; sourceTree = "<group>"; };
 		631ABE1512FCCA1200243329 /* GLESViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLESViewController.m; sourceTree = "<group>"; };
 		631ABEEB12FF3DEE00243329 /* transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent.png; sourceTree = "<group>"; };
@@ -57,6 +49,10 @@
 		637421FA11E5EA6A00DFBB47 /* prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
 		63EEA42711A251970047F51E /* RenderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderController.h; sourceTree = "<group>"; };
 		63EEA42811A251A20047F51E /* RenderController.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = RenderController.c; sourceTree = "<group>"; };
+		E41C07711BF7EC5D0032DEC6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		E41C07751BF7F3BB0032DEC6 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		E41C07771BF7F4620032DEC6 /* ViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController_iPad.xib; sourceTree = "<group>"; };
+		E41C07781BF7F4620032DEC6 /* ViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController_iPhone.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E41C07761BF7F3BB0032DEC6 /* GLKit.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */,
@@ -78,14 +75,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				631ABE0312FCC94300243329 /* GLES1Surface.h */,
-				631ABE0412FCC94300243329 /* GLES1Surface.m */,
-				631ABE0512FCC94300243329 /* GLES2Surface.h */,
-				631ABE0612FCC94300243329 /* GLES2Surface.m */,
-				631ABE0712FCC94300243329 /* GLESSurface.h */,
-				631ABE0812FCC94300243329 /* GLESSurface.m */,
-				631ABE0912FCC94300243329 /* GLESView.h */,
-				631ABE0A12FCC94300243329 /* GLESView.m */,
 				631ABB5312FBB63A00243329 /* TextureLoader.h */,
 				631ABB5412FBB63A00243329 /* TextureLoader.m */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
@@ -109,6 +98,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				E41C07711BF7EC5D0032DEC6 /* Default-568h@2x.png */,
 				631ABF1C12FF423F00243329 /* README.md */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -131,6 +121,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E41C07771BF7F4620032DEC6 /* ViewController_iPad.xib */,
+				E41C07781BF7F4620032DEC6 /* ViewController_iPhone.xib */,
 				631AC20912FFCE4300243329 /* point_glow_s.png */,
 				631AC14312FFC4E800243329 /* t2.png */,
 				631ABEEB12FF3DEE00243329 /* transparent.png */,
@@ -142,6 +134,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E41C07751BF7F3BB0032DEC6 /* GLKit.framework */,
 				28FD15070DC6FC5B0079059D /* QuartzCore.framework */,
 				28FD14FF0DC6FC520079059D /* OpenGLES.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
@@ -176,8 +169,11 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MarchingSquares" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -200,9 +196,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E41C077A1BF7F4620032DEC6 /* ViewController_iPhone.xib in Resources */,
+				E41C07791BF7F4620032DEC6 /* ViewController_iPad.xib in Resources */,
 				631ABEEC12FF3DEE00243329 /* transparent.png in Resources */,
 				631ABF1D12FF423F00243329 /* README.md in Resources */,
 				631AC14412FFC4E800243329 /* t2.png in Resources */,
+				E41C07721BF7EC5D0032DEC6 /* Default-568h@2x.png in Resources */,
 				631AC20A12FFCE4300243329 /* point_glow_s.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -218,10 +217,6 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				63EEA42911A251A20047F51E /* RenderController.c in Sources */,
 				631ABB5512FBB63A00243329 /* TextureLoader.m in Sources */,
-				631ABE0B12FCC94300243329 /* GLES1Surface.m in Sources */,
-				631ABE0C12FCC94300243329 /* GLES2Surface.m in Sources */,
-				631ABE0D12FCC94300243329 /* GLESSurface.m in Sources */,
-				631ABE0E12FCC94300243329 /* GLESView.m in Sources */,
 				631ABE1612FCCA1200243329 /* GLESViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -240,6 +235,7 @@
 				GCC_PREFIX_HEADER = prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = MarchingSquaresInfo.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Marching;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -254,6 +250,7 @@
 				GCC_PREFIX_HEADER = prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = MarchingSquaresInfo.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Marching;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -262,12 +259,13 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -277,7 +275,6 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
